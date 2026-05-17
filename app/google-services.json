@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "215097400442",
+    "project_id": "meatbazar",
+    "storage_bucket": "meatbazar.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:215097400442:android:eaf128d971e2bcfe852fc3",
+        "android_client_info": {
+          "package_name": "com.example.meatbazar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKqL_deYTPyaSSHE7wCNLwL-ufXfev1F8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
