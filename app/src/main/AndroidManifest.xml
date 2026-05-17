@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Internet permission for Firebase -->
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Internet permission -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -16,35 +16,51 @@
             android:exported="true">
 
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
         </activity>
 
         <!-- Authentication -->
         <activity
-            android:name=".activities.LoginActivity"
-            android:exported="false"/>
+            android:name=".auth.LoginActivity"
+            android:exported="false" />
 
         <activity
-            android:name=".activities.RegisterActivity"
-            android:exported="false"/>
+            android:name=".auth.RegisterActivity"
+            android:exported="false" />
 
-        <!-- User -->
+        <!-- Main User -->
         <activity
             android:name=".MainActivity"
-            android:exported="false"/>
+            android:exported="false" />
 
         <!-- Admin -->
         <activity
             android:name=".admin.AdminDashboardActivity"
-            android:exported="false"/>
+            android:exported="false" />
 
         <!-- Distributor -->
         <activity
             android:name=".distributor.DistributorDashboardActivity"
-            android:exported="false"/>
+            android:exported="false" />
+
+        <!-- Customer Dashboard -->
+        <activity
+            android:name=".dashboard.CustomerDashboardActivity"
+            android:exported="false" />
+
+        <!-- Dashboard Admin -->
+        <activity
+            android:name=".dashboard.AdminDashboardActivity"
+            android:exported="false" />
+
+        <!-- Dashboard Distributor -->
+        <activity
+            android:name=".dashboard.DistributorDashboardActivity"
+            android:exported="false" />
 
     </application>
 
