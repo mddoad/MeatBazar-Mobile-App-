@@ -6,8 +6,9 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.meatbazar.R
 import com.example.meatbazar.auth.LoginActivity
+import com.example.meatbazar.order.AdminOrdersActivity
 import com.example.meatbazar.product.AddProductActivity
-import com.example.meatbazar.product.ProductListActivity
+import com.example.meatbazar.product.ManageProductsActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class AdminDashboardActivity : AppCompatActivity() {
@@ -17,7 +18,8 @@ class AdminDashboardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_admin_dashboard)
 
         val btnAddProduct = findViewById<Button>(R.id.btnAddProduct)
-        val btnViewProducts = findViewById<Button>(R.id.btnViewProducts)
+        val btnManageProducts = findViewById<Button>(R.id.btnManageProducts)
+        val btnViewOrders = findViewById<Button>(R.id.btnViewOrders)
         val btnLogout = findViewById<Button>(R.id.btnLogout)
 
         btnAddProduct.setOnClickListener {
@@ -27,10 +29,17 @@ class AdminDashboardActivity : AppCompatActivity() {
             )
         }
 
-        btnViewProducts.setOnClickListener {
+        btnManageProducts.setOnClickListener {
 
             startActivity(
-                Intent(this, ProductListActivity::class.java)
+                Intent(this, ManageProductsActivity::class.java)
+            )
+        }
+
+        btnViewOrders.setOnClickListener {
+
+            startActivity(
+                Intent(this, AdminOrdersActivity::class.java)
             )
         }
 
