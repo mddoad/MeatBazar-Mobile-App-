@@ -62,6 +62,22 @@
             android:name=".dashboard.DistributorDashboardActivity"
             android:exported="false" />
 
+        <!-- Add Product -->
+        <activity
+            android:name=".product.AddProductActivity"
+            android:exported="false" />
+
+        <!-- Manage Products -->
+        <activity
+            android:name=".product.ManageProductsActivity"
+            android:exported="false" />
+
+        <!-- Admin Orders -->
+        <activity
+            android:name=".order.AdminOrdersActivity"
+            android:exported="false" />
+
+
     </application>
 
 </manifest>
