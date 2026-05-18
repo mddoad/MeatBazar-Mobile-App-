@@ -1,10 +1,9 @@
 package com.example.meatbazar.model
 
-data class Product(
+data class CartModel(
     val productId: String = "",
     val productName: String = "",
     val productPrice: String = "",
-    val productDescription: String = "",
     val productImage: String = "",
-    val category: String = ""
+    val quantity: Int = 1
 )
