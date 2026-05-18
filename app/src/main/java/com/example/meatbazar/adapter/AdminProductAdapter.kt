@@ -1,17 +1,17 @@
 package com.example.meatbazar.adapter
 
 import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.meatbazar.R
-import com.example.meatbazar.model.Product
+import com.example.meatbazar.product.Product
 import com.google.firebase.firestore.FirebaseFirestore
 
 class AdminProductAdapter(
@@ -22,10 +22,10 @@ class AdminProductAdapter(
     inner class AdminViewHolder(view: View) :
         RecyclerView.ViewHolder(view) {
 
-        val image = view.findViewById<ImageView>(R.id.adminProductImage)
-        val name = view.findViewById<TextView>(R.id.adminProductName)
-        val price = view.findViewById<TextView>(R.id.adminProductPrice)
-        val btnDelete = view.findViewById<Button>(R.id.btnDeleteProduct)
+        val image: ImageView = view.findViewById(R.id.adminProductImage)
+        val name: TextView = view.findViewById(R.id.adminProductName)
+        val price: TextView = view.findViewById(R.id.adminProductPrice)
+        val btnDelete: Button = view.findViewById(R.id.btnDeleteProduct)
     }
 
     override fun onCreateViewHolder(
@@ -39,7 +39,9 @@ class AdminProductAdapter(
         return AdminViewHolder(view)
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int {
+        return list.size
+    }
 
     override fun onBindViewHolder(
         holder: AdminViewHolder,
@@ -48,13 +50,18 @@ class AdminProductAdapter(
 
         val product = list[position]
 
+        // Set com.example.meatbazar.product.Product Name & Price
         holder.name.text = product.productName
         holder.price.text = "৳ ${product.productPrice}"
 
+        // Load Image from URL using Glide
         Glide.with(context)
             .load(product.productImage)
+            .placeholder(R.drawable.ic_launcher_background)
+            .error(R.drawable.ic_launcher_foreground)
             .into(holder.image)
 
+        // Delete com.example.meatbazar.product.Product
         holder.btnDelete.setOnClickListener {
 
             FirebaseFirestore.getInstance()
@@ -64,11 +71,20 @@ class AdminProductAdapter(
                 .addOnSuccessListener {
 
                     list.removeAt(position)
-                    notifyDataSetChanged()
+                    notifyItemRemoved(position)
+                    notifyItemRangeChanged(position, list.size)
 
                     Toast.makeText(
                         context,
-                        "Product Deleted",
+                        "com.example.meatbazar.product.Product Deleted Successfully",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                .addOnFailureListener {
+
+                    Toast.makeText(
+                        context,
+                        "Failed to Delete com.example.meatbazar.product.Product",
                         Toast.LENGTH_SHORT
                     ).show()
                 }

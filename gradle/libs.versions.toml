@@ -36,6 +36,8 @@ androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifec
 androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle" }
 androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activity-ktx" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
+firebase-database-ktx = { group = "com.google.firebase", name = "firebase-database-ktx" }
 
 # Firebase (assuming versions are handled via Firebase BoM platform registration elsewhere)
 firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx" }

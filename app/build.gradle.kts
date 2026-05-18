@@ -60,9 +60,10 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
 
     implementation(libs.glide)
-
+    annotationProcessor(libs.glide.compiler)
     // Firebase BOM
     implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.database.ktx)
 
     // Firebase
     implementation(libs.firebase.auth.ktx)

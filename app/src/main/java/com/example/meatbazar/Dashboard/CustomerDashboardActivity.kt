@@ -1,5 +1,6 @@
 package com.example.meatbazar.dashboard
 
+import com.example.meatbazar.product.Product
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -9,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.meatbazar.R
 import com.example.meatbazar.adapter.ProductAdapter
 import com.example.meatbazar.auth.LoginActivity
-import com.example.meatbazar.model.Product
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 

@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meatbazar.R
 import com.example.meatbazar.adapter.ProductAdapter
-import com.example.meatbazar.model.Product
+import com.example.meatbazar.product.Product
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ProductListActivity : AppCompatActivity() {
