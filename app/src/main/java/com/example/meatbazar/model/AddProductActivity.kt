@@ -1,112 +1,106 @@
-package com.example.meatbazar
+package com.example.meatbazar.product
 
-import android.R
 import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.tasks.OnSuccessListener
+import com.example.meatbazar.R
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.UploadTask
 
 class AddProductActivity : AppCompatActivity() {
-    var etName: EditText? = null
-    var etPrice: EditText? = null
-    var etDescription: EditText? = null
-    var btnSelectImage: Button? = null
-    var btnAddProduct: Button? = null
-    var imagePreview: ImageView? = null
 
-    var imageUri: Uri? = null
+    private lateinit var etName: EditText
+    private lateinit var etPrice: EditText
+    private lateinit var etDescription: EditText
+    private lateinit var imagePreview: ImageView
 
-    var firestore: FirebaseFirestore? = null
-    var storage: FirebaseStorage? = null
+    private var imageUri: Uri? = null
 
-    private val IMAGE_REQUEST = 1
+    private val firestore = FirebaseFirestore.getInstance()
+    private val storage = FirebaseStorage.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_product)
-        etName = findViewById<EditText?>(R.id.etProductName)
-        etPrice = findViewById<EditText?>(R.id.etProductPrice)
-        etDescription = findViewById<EditText?>(R.id.etProductDescription)
-        btnSelectImage = findViewById<Button?>(R.id.btnSelectImage)
-        btnAddProduct = findViewById<Button?>(R.id.btnAddProduct)
-        imagePreview = findViewById<ImageView?>(R.id.imagePreview)
 
-        firestore = FirebaseFirestore.getInstance()
-        storage = FirebaseStorage.getInstance()
+        etName = findViewById(R.id.etProductName)
+        etPrice = findViewById(R.id.etProductPrice)
+        etDescription = findViewById(R.id.etProductDescription)
+        imagePreview = findViewById(R.id.imagePreview)
 
-        btnSelectImage!!.setOnClickListener(View.OnClickListener { v: View? -> openGallery() })
+        val btnSelectImage = findViewById<Button>(R.id.btnSelectImage)
+        val btnAddProduct = findViewById<Button>(R.id.btnAddProduct)
 
-        btnAddProduct!!.setOnClickListener(View.OnClickListener { v: View? -> uploadProduct() })
+        btnSelectImage.setOnClickListener {
+            openGallery()
+        }
+
+        btnAddProduct.setOnClickListener {
+            uploadProduct()
+        }
     }
 
     private fun openGallery() {
-        val intent = Intent(
-            Intent.ACTION_PICK,
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        )
-        startActivityForResult(intent, IMAGE_REQUEST)
+        val intent = Intent(Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+
+        startActivityForResult(intent, 100)
     }
 
-    override fun onActivityResult(
-        requestCode: Int, resultCode: Int,
-        data: Intent?
-    ) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == IMAGE_REQUEST && data != null) {
-            imageUri = data.getData()
-            imagePreview!!.setImageURI(imageUri)
+        if (requestCode == 100 && data != null) {
+            imageUri = data.data
+            imagePreview.setImageURI(imageUri)
         }
     }
 
     private fun uploadProduct() {
-        val name = etName!!.getText().toString()
-        val price = etPrice!!.getText().toString()
-        val description = etDescription!!.getText().toString()
 
         val dialog = ProgressDialog(this)
-        dialog.setMessage("Uploading Product...")
+        dialog.setMessage("Uploading...")
         dialog.show()
 
-        val reference = storage!!.getReference()
-            .child("product_images")
-            .child(System.currentTimeMillis().toString() + ".jpg")
+        val reference = storage.reference
+            .child("productImages")
+            .child(System.currentTimeMillis().toString())
 
-        reference.putFile(imageUri!!)
-            .addOnSuccessListener(OnSuccessListener { taskSnapshot: UploadTask.TaskSnapshot? ->
-                reference.getDownloadUrl().addOnSuccessListener(OnSuccessListener { uri: Uri? ->
-                    val productId = firestore!!.collection("products")
-                        .document().getId()
-                    val map = HashMap<String?, Any?>()
+        imageUri?.let {
 
-                    map.put("productId", productId)
-                    map.put("productName", name)
-                    map.put("productPrice", price)
-                    map.put("productDescription", description)
-                    map.put("productImage", uri.toString())
-                    firestore!!.collection("products")
-                        .document(productId)
-                        .set(map)
-                        .addOnSuccessListener(OnSuccessListener { unused: Void? ->
-                            dialog.dismiss()
-                            Toast.makeText(
-                                this,
-                                "Product Added",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        })
-                })
-            })
+            reference.putFile(it)
+                .addOnSuccessListener {
+
+                    reference.downloadUrl.addOnSuccessListener { uri ->
+
+                        val productId = firestore.collection("products")
+                            .document().id
+
+                        val map = hashMapOf(
+                            "productId" to productId,
+                            "productName" to etName.text.toString(),
+                            "productPrice" to etPrice.text.toString(),
+                            "productDescription" to etDescription.text.toString(),
+                            "productImage" to uri.toString()
+                        )
+
+                        firestore.collection("products")
+                            .document(productId)
+                            .set(map)
+                            .addOnSuccessListener {
+
+                                dialog.dismiss()
+
+                                Toast.makeText(this,
+                                    "Product Added",
+                                    Toast.LENGTH_SHORT).show()
+                            }
+                    }
+                }
+        }
     }
 }
